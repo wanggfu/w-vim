@@ -91,7 +91,7 @@ set noswapfile
 set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
 
 " 突出显示当前列
-set cursorcolumn
+" set cursorcolumn
 " 突出显示当前行
 set cursorline
 
@@ -102,7 +102,7 @@ set t_ti= t_te=
 
 
 " 鼠标暂不启用, 键盘党....
-set mouse-=a
+set mouse -=a
 " 启用鼠标
 " set mouse=a
 " Hide the mouse cursor while typing
@@ -214,7 +214,7 @@ set softtabstop=4
 " insert tabs on the start of a line according to shiftwidth, not tabstop 按退格键时可以一次删掉 4 个空格
 set smarttab
 " 将Tab自动转化成空格[需要输入真正的Tab键时，使用 Ctrl+V + Tab]
-set expandtab
+" set expandtab
 " 缩进时，取整 use multiple of shiftwidth when indenting with '<' and '>'
 set shiftround
 
@@ -425,10 +425,10 @@ cnoremap <C-e> <End>
 
 " 搜索相关
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
+" map <space> /
 " 进入搜索Use sane regexes"
-nnoremap / /\v
-vnoremap / /\v
+" nnoremap / /\v
+" vnoremap / /\v
 
 " Keep search pattern at the center of the screen.
 nnoremap <silent> n nzz
@@ -497,8 +497,8 @@ nnoremap <silent> <leader>tt :execute 'tabnext ' . g:last_active_tab<cr>
 autocmd TabLeave * let g:last_active_tab = tabpagenr()
 
 " 新建tab  Ctrl+t
-nnoremap <C-t>     :tabnew<CR>
-inoremap <C-t>     <Esc>:tabnew<CR>
+" nnoremap <C-t>     :tabnew<CR>
+" inoremap <C-t>     <Esc>:tabnew<CR>
 
 
 " => 选中及操作改键
@@ -578,7 +578,7 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 
 " 定义函数AutoSetFileHead，自动插入文件头
@@ -611,64 +611,10 @@ if has("autocmd")
 endif
 
 "==========================================
-" TEMP 设置, 尚未确定要不要
-"==========================================
-
-" tmux
-" function! WrapForTmux(s)
-"   if !exists('$TMUX')
-"     return a:s
-"   endif
-"
-"   let tmux_start = "\<Esc>Ptmux;"
-"   let tmux_end = "\<Esc>\\"
-"
-"   return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-" endfunction
-"
-" let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-" let &t_EI .= WrapForTmux("\<Esc>[?2004l")
-
-" allows cursor change in tmux mode
-" let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-" let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-" if exists('$TMUX')
-    " let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    " let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-" endif
-
-
-"==========================================
 " Theme Settings  主题设置
 "==========================================
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guifont=Monaco:h14
-    if has("gui_gtk2")   "GTK2
-        set guifont=Monaco\ 12,Monospace\ 12
-    endif
-    set guioptions-=T
-    set guioptions+=e
-    set guioptions-=r
-    set guioptions-=L
-    set guitablabel=%M\ %t
-    set showtabline=1
-    set linespace=2
-    set noimd
-    set t_Co=256
-endif
-
-
-
 " theme主题
-set background=dark
 set t_Co=256
-
-colorscheme solarized
-" colorscheme molokai
-" colorscheme desert
-
 
 " 设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr
@@ -684,7 +630,18 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
-
-
+" 代码折叠
+set foldenable
+" 折叠方法
+" manual    手工折叠
+" indent    使用缩进表示折叠
+" expr      使用表达式定义折叠
+" syntax    使用语法定义折叠
+" diff      对没有更改的文本进行折叠
+" marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
+set foldmethod=syntax
+setlocal foldlevel=5       " 设置折叠层数为"
+" 用空格键来开关折叠
+nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+"set foldlevel=99                                                  )
 

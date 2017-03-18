@@ -17,7 +17,7 @@ filetype off " required! turn off
 " inspired by spf13, 自定义需要的插件集合
 if !exists('g:bundle_groups')
     " let g:bundle_groups=['python', 'javascript', 'markdown', 'html', 'css', 'tmux', 'beta', 'json', 'nginx', 'golang', 'ruby', 'less', 'php', 'coffeescript', 'shell']
-    let g:bundle_groups=['python', 'javascript', 'markdown', 'html', 'css', 'tmux', 'beta']
+    let g:bundle_groups=['python', 'javascript', 'html', 'css', 'json']
 endif
 
 " ----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ Plug 'scrooloose/syntastic'
 " Group dependencies, vim-snippets depends on ultisnips
 " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
 " Snippets are separated from the engine. Add this if you want them:
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " auto complete
 " 代码自动补全
@@ -43,9 +43,10 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " 重启 :YcmRestartServer
 Plug 'Valloric/YouCompleteMe'
 " 自动补全单引号，双引号等
-Plug 'Raimondi/delimitMate'
+" Plug 'Raimondi/delimitMate'
 " 自动补全html/xml标签
 Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
+Plug 'c.vim'
 
 " quick edit
 " 快速注释
@@ -54,7 +55,7 @@ Plug 'scrooloose/nerdcommenter'
 
 " 快速加入修改环绕字符
 " for repeat -> enhance surround.vim, . to repeat command
-Plug 'tpope/vim-repeat' | Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-repeat' | Plug 'tpope/vim-surround'
 " trailingwhitespace
 " 快速去行尾空格 [, + <Space>]
 Plug 'bronson/vim-trailing-whitespace'
@@ -69,7 +70,7 @@ Plug 'Lokaltog/vim-easymotion'
 
 " 更高效的行内移动, f/F/t/T, 才触发
 " quickscope
-Plug 'unblevable/quick-scope'
+" Plug 'unblevable/quick-scope'
 
 Plug 'vim-scripts/matchit.zip'
 " signature
@@ -109,7 +110,7 @@ Plug 'dyng/ctrlsf.vim'
 
 " quick run
 " quickrun
-Plug 'thinca/vim-quickrun'
+" Plug 'thinca/vim-quickrun'
 
 " git
 " fugitive
@@ -131,10 +132,10 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'kien/rainbow_parentheses.vim'
 " 主题 solarized
 " solarized
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 " molokai
 " 主题 molokai
-Plug 'tomasr/molokai'
+" Plug 'tomasr/molokai'
 
 
 " nav
@@ -441,8 +442,8 @@ call plug#end()
 
 " delimitMate {{{
     " for python docstring ",优化输入
-    au FileType python let b:delimitMate_nesting_quotes = ['"']
-    au FileType php let delimitMate_matchpairs = "(:),[:],{:}"
+    " au FileType python let b:delimitMate_nesting_quotes = ['"']
+    " au FileType php let delimitMate_matchpairs = "(:),[:],{:}"
     " 关闭某些类型文件的自动补全
     "au FileType mail let b:delimitMate_autoclose = 0
 " }}}
@@ -613,12 +614,13 @@ call plug#end()
     if !exists('g:airline_symbols')
         let g:airline_symbols = {}
     endif
-    let g:airline_left_sep = '▶'
-    let g:airline_left_alt_sep = '❯'
-    let g:airline_right_sep = '◀'
-    let g:airline_right_alt_sep = '❮'
-    let g:airline_symbols.linenr = '¶'
-    let g:airline_symbols.branch = '⎇'
+    let g:airline_left_sep = "\u2b80"
+    let g:airline_left_alt_sep = "\u2b81"
+    let g:airline_right_sep = "\u2b82"
+    let g:airline_right_alt_sep = "\u2b83"
+    let g:airline_symbols.branch = "\u2b60"
+    let g:airline_symbols.readonly = "\u2b64"
+    let g:airline_symbols.linenr = "\u2b61"
     " 是否打开tabline
     " let g:airline#extensions#tabline#enabled = 1
 " }}}
@@ -655,25 +657,9 @@ call plug#end()
 " }}}
 
 
-" ################### 显示增强-主题 ###################"
-
-" solarized {{{
-    let g:solarized_termtrans=1
-    let g:solarized_contrast="normal"
-    let g:solarized_visibility="normal"
-    " let g:solarized_termcolors=256
-" }}}
-
-" molokai {{{
-    " monokai原始背景色
-    let g:molokai_original = 1
-    let g:rehash256 = 1
-" }}}
-
-" ################### 快速导航 ###################
 
 " nerdtree nerdtreetabs {{{
-    " map <leader>n :NERDTreeToggle<CR>
+	map <leader>n :NERDTreeToggle<CR>
     let NERDTreeHighlightCursorline=1
     let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
     "close vim if the only window left open is a NERDTree
@@ -684,7 +670,7 @@ call plug#end()
 
 
     " nerdtreetabs
-    map <Leader>n <plug>NERDTreeTabsToggle<CR>
+    map <Leader>m <plug>NERDTreeTabsToggle<CR>
     " 关闭同步
     " let g:nerdtree_tabs_synchronize_view=0
     " let g:nerdtree_tabs_synchronize_focus=0
@@ -707,7 +693,7 @@ call plug#end()
 
 " 标签导航
 " tagbar {{{
-    nmap <F9> :TagbarToggle<CR>
+    nmap <Leader>n :TagbarToggle<CR>
     let g:tagbar_autofocus = 1
     " let g:tagbar_autoshowtag = 1
     " let g:tagbar_show_visibility = 1
@@ -760,24 +746,20 @@ call plug#end()
 " ################### 语言相关 ###################
 
 " quickrun {{{
-    let g:quickrun_config = {
+    " let g:quickrun_config = {
     \   "_" : {
     \       "outputter" : "message",
     \   },
     \}
 
-    let g:quickrun_no_default_key_mappings = 1
-    nmap <Leader>r <Plug>(quickrun)
-    map <F10> :QuickRun<CR>
+    " let g:quickrun_no_default_key_mappings = 1
+    " nmap <Leader>r <Plug>(quickrun)
+    " map <F10> :QuickRun<CR>
 " }}}
 
 
 " pythonsyntax {{{
     let python_highlight_all = 1
-" }}}
-
-" piv {{{
-    let g:DisableAutoPHPFolding = 1
 " }}}
 
 
@@ -833,6 +815,31 @@ call plug#end()
     " let g:yapf_style = "pep8"
     " setenv PYTHONIOENCODING UTF-8
     " nnoremap <leader>y :call Yapf()<cr>
+" }}}
+" ####### cscope  ########
+" {{{
+" 按下面这种组合键有技巧,按了<C-_>后要马上按下一个键,否则屏幕一闪
+
+" 就回到nomal状态了
+
+" <C-_>s的按法是先按"Ctrl+Shift+-",然后很快再按"s"
+
+    nmap <leader><leader>s :cs find s <C-R>=expand("<cword>")<cr><cr>
+
+    nmap <leader><leader>g :cs find g <C-R>=expand("<cword>")<cr><cr>
+
+    nmap <leader><leader>c :cs find c <C-R>=expand("<cword>")<cr><cr>
+
+    nmap <leader><leader>t :cs find t <C-R>=expand("<cword>")<cr><cr>
+
+    nmap <leader><leader>e :cs find e <C-R>=expand("<cword>")<cr><cr>
+
+    nmap <leader><leader>f :cs find f <C-R>=expand("<cfile>")<cr><cr>
+
+    nmap <leader><leader>i :cs find i <C-R>=expand("<cfile>")<cr><cr>
+
+    nmap <leader><leader>d :cs find d <C-R>=expand("<cword>")<cr><cr>
+
 " }}}
 
 "------------------------------------------- end of configs --------------------------------------------
