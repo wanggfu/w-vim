@@ -42,8 +42,7 @@ Plug 'scrooloose/syntastic'
 " 迄今为止用到的最好的自动VIM自动补全插件
 " 重启 :YcmRestartServer
 Plug 'Valloric/YouCompleteMe'
-" 自动补全单引号，双引号等
-" Plug 'Raimondi/delimitMate'
+
 " 自动补全html/xml标签
 Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
 Plug 'c.vim'
@@ -53,13 +52,6 @@ Plug 'c.vim'
 Plug 'scrooloose/nerdcommenter'
 
 
-" 快速加入修改环绕字符
-" for repeat -> enhance surround.vim, . to repeat command
-" Plug 'tpope/vim-repeat' | Plug 'tpope/vim-surround'
-" trailingwhitespace
-" 快速去行尾空格 [, + <Space>]
-Plug 'bronson/vim-trailing-whitespace'
-" easyalign
 " 快速赋值语句对齐
 Plug 'junegunn/vim-easy-align'
 
@@ -67,10 +59,6 @@ Plug 'junegunn/vim-easy-align'
 " easymotion
 "更高效的移动 [,, + w/fx/h/j/k/l]
 Plug 'Lokaltog/vim-easymotion'
-
-" 更高效的行内移动, f/F/t/T, 才触发
-" quickscope
-" Plug 'unblevable/quick-scope'
 
 Plug 'vim-scripts/matchit.zip'
 " signature
@@ -94,6 +82,7 @@ Plug 'terryma/vim-multiple-cursors'
 " change to https://github.com/ctrlpvim/ctrlp.vim
 " ctrlp ctrlpfunky
 Plug 'ctrlpvim/ctrlp.vim' | Plug 'tacahiroy/ctrlp-funky'
+
 " ctrlsf
 " 类似sublimetext的搜索
 " In CtrlSF window:
@@ -107,10 +96,6 @@ Plug 'dyng/ctrlsf.vim'
 " map /  <Plug>(incsearch-forward)
 " map ?  <Plug>(incsearch-backward)
 " map g/ <Plug>(incsearch-stay)
-
-" quick run
-" quickrun
-" Plug 'thinca/vim-quickrun'
 
 " git
 " fugitive
@@ -146,32 +131,6 @@ Plug 'vim-ctrlspace/vim-ctrlspace'
 " tagbar
 Plug 'majutsushi/tagbar'
 
-" text object
-" 支持自定义文本对象
-Plug 'kana/vim-textobj-user'
-" 增加行文本对象: l   dal yal cil
-Plug 'kana/vim-textobj-line'
-" 增加文件文本对象: e   dae yae cie
-Plug 'kana/vim-textobj-entire'
-" 增加缩进文本对象: i   dai yai cii - 相同缩进属于同一块
-Plug 'kana/vim-textobj-indent'
-
-if count(g:bundle_groups, 'tmux')
-    " tmux
-    " For tmux navigator Ctrl-hjkl
-    Plug 'christoomey/vim-tmux-navigator'
-endif
-
-if count(g:bundle_groups, 'markdown')
-    Plug 'plasticboy/vim-markdown', {'for': 'md'}
-    " https://github.com/suan/vim-instant-markdown
-    " npm -g install instant-markdown-d
-    " Plug 'suan/vim-instant-markdown'
-    " let g:instant_markdown_slow = 1
-    " let g:instant_markdown_autostart = 0
-    " map <F12> :InstantMarkdownPreview<CR>
-endif
-
 if count(g:bundle_groups, 'golang')
     " 1. vim a.go
     " 2. :GoInstallBinaries
@@ -200,16 +159,6 @@ if count(g:bundle_groups, 'php')
     Plug 'spf13/PIV'
 endif
 
-if count(g:bundle_groups, 'ruby')
-    Plug 'vim-ruby/vim-ruby'
-    Plug 'tpope/vim-rails'
-    " dir / dar
-    Plug 'nelstrom/vim-textobj-rubyblock'
-
-    " 有bug, 和当前有冲突, 尚未解决, 不要打开 => TODO: solve this problem
-    " Plug 'tpope/vim-endwise'
-endif
-
 if count(g:bundle_groups, 'javascript')
     " javascript
     " 注意: syntax这个插件要放前面
@@ -231,29 +180,9 @@ if count(g:bundle_groups, 'coffeescript')
     Plug 'kchmck/vim-coffee-script'
 endif
 
-" if count(g:bundle_groups, 'shell')
-    " Plug 'Shougo/vimshell.vim'
-" endif
-
 if count(g:bundle_groups, 'json')
     " json
     Plug 'elzr/vim-json', {'for': 'json'}
-endif
-
-if count(g:bundle_groups, 'css')
-    " css
-    " not work in iterm2 which termianl selection is not xterm-256, and it slow
-    " Plug 'ap/vim-css-color'
-
-    " 这个有坑, see issue https://github.com/wklken/k-vim/issues/49
-    " Plug 'gorodinskiy/vim-coloresque'
-    " Plug 'lilydjwg/colorizer'
-endif
-
-if count(g:bundle_groups, 'less')
-    " ###### vim.less : less 自动更新##########
-    " Plug 'groenewege/vim-less'
-    " autocmd BufWritePost *.less :!lessc % > %:p:r.css
 endif
 
 if count(g:bundle_groups, 'html')
@@ -265,21 +194,6 @@ if count(g:bundle_groups, 'nginx')
     " Plug 'evanmiller/nginx-vim-syntax'
 endif
 
-
-" this is just for beta version
-if count(g:bundle_groups, 'beta')
-    " indent
-    Plug 'nathanaelkane/vim-indent-guides'
-    " <leader>ig to trigger
-    let g:indent_guides_start_level = 2
-    let g:indent_guides_guide_size = 1
-    let g:indent_guides_auto_colors = 0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=black
-
-endif
-
-
 " Add plugins to &runtimepath
 call plug#end()
 
@@ -290,8 +204,8 @@ call plug#end()
     " dependence
     " 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck
 
-    let g:syntastic_error_symbol='>>'
-    let g:syntastic_warning_symbol='>'
+    let g:syntastic_error_symbol='>'
+    let g:syntastic_warning_symbol='>*'
     let g:syntastic_check_on_open=1
     let g:syntastic_check_on_wq=0
     let g:syntastic_enable_highlighting=1
@@ -438,15 +352,6 @@ call plug#end()
 " }}}
 
 
-" delimitMate {{{
-    " for python docstring ",优化输入
-    " au FileType python let b:delimitMate_nesting_quotes = ['"']
-    " au FileType php let delimitMate_matchpairs = "(:),[:],{:}"
-    " 关闭某些类型文件的自动补全
-    "au FileType mail let b:delimitMate_autoclose = 0
-" }}}
-
-
 " closetag {{{
     let g:closetag_html_style=1
 " }}}
@@ -456,22 +361,6 @@ call plug#end()
 " nerdcommenter {{{
     let g:NERDSpaceDelims=1
     let g:NERDAltDelims_python = 1
-" }}}
-
-" trailingwhitespace {{{
-    map <leader><space> :FixWhitespace<cr>
-" }}}
-
-" easyalign {{{
-    vmap <Leader>a <Plug>(EasyAlign)
-    nmap <Leader>a <Plug>(EasyAlign)
-    if !exists('g:easy_align_delimiters')
-    let g:easy_align_delimiters = {}
-    endif
-    let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
-    " Default:
-    " If a delimiter is in a highlight group whose name matches any of the followings, it will be ignored.
-    let g:easy_align_ignore_groups = ['Comment', 'String']
 " }}}
 
 " ################### 快速移动 ###################
@@ -485,16 +374,6 @@ call plug#end()
     map <Leader><leader>l <Plug>(easymotion-lineforward)
     " 重复上一次操作, 类似repeat插件, 很强大
     map <Leader><leader>. <Plug>(easymotion-repeat)
-" }}}
-
-
-" quickscope {{{
-    let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-    " macvim/gvim会有问题, 暂时注解
-    " let g:qs_first_occurrence_highlight_color = '#afff5f' " gui vim
-    " let g:qs_first_occurrence_highlight_color = 155       " terminal vim
-    " let g:qs_second_occurrence_highlight_color = '#5fffff'  " gui vim
-    " let g:qs_second_occurrence_highlight_color = 81         " terminal vim
 " }}}
 
 " ################### 快速选中 ###################
@@ -539,13 +418,6 @@ call plug#end()
     let g:ctrlp_match_window_reversed=0
     let g:ctrlp_mruf_max=500
     let g:ctrlp_follow_symlinks=1
-    " 如果安装了ag, 使用ag
-    " if executable('ag')
-    " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    " " ag is fast enough that CtrlP doesn't need to cache
-    " let g:ctrlp_use_caching = 0
-    " endif
 
     " ctrlpfunky
     " ctrlp插件1 - 不用ctag进行函数快速跳转
@@ -559,7 +431,7 @@ call plug#end()
 
 
 " ctrlsf {{{
-    nmap \ <Plug>CtrlSFCwordPath<CR>
+	nmap <C-F>f <Plug>CtrlSFPrompt
     " let g:ctrlsf_position = 'below'
     " let g:ctrlsf_winsize = '30%'
     let g:ctrlsf_auto_close = 0
@@ -743,19 +615,6 @@ call plug#end()
 
 " ################### 语言相关 ###################
 
-" quickrun {{{
-    " let g:quickrun_config = {
-    \   "_" : {
-    \       "outputter" : "message",
-    \   },
-    \}
-
-    " let g:quickrun_no_default_key_mappings = 1
-    " nmap <Leader>r <Plug>(quickrun)
-    " map <F10> :QuickRun<CR>
-" }}}
-
-
 " pythonsyntax {{{
     let python_highlight_all = 1
 " }}}
@@ -775,11 +634,6 @@ call plug#end()
     let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java'] }
 " }}}
 
-" markdown {{{
-    let g:vim_markdown_folding_disabled=1
-" }}}
-
-
 " javascript {{{
     " pangloss/vim-javascript
     let g:html_indent_inctags = "html,body,head,tbody"
@@ -789,55 +643,6 @@ call plug#end()
 
 " json {{{
     let g:vim_json_syntax_conceal = 0
-" }}}
-
-" css {{{
-" }}}
-
-" nginx {{{
-" }}}
-
-
-" ####### temp #######
-
-" beta {{{
-    " python code format
-    " format all file
-    autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
-    " format select block
-    " autocmd FileType python vnoremap <leader>y :!yapf<Cr>
-
-    " Plug 'mindriot101/vim-yapf'
-    " scriptencoding utf-8
-    " let g:yapf_style = "google"
-    " let g:yapf_style = "pep8"
-    " setenv PYTHONIOENCODING UTF-8
-    " nnoremap <leader>y :call Yapf()<cr>
-" }}}
-" ####### cscope  ########
-" {{{
-" 按下面这种组合键有技巧,按了<C-_>后要马上按下一个键,否则屏幕一闪
-
-" 就回到nomal状态了
-
-" <C-_>s的按法是先按"Ctrl+Shift+-",然后很快再按"s"
-
-    nmap <leader><leader>s :cs find s <C-R>=expand("<cword>")<cr><cr>
-
-    nmap <leader><leader>g :cs find g <C-R>=expand("<cword>")<cr><cr>
-
-    nmap <leader><leader>c :cs find c <C-R>=expand("<cword>")<cr><cr>
-
-    nmap <leader><leader>t :cs find t <C-R>=expand("<cword>")<cr><cr>
-
-    nmap <leader><leader>e :cs find e <C-R>=expand("<cword>")<cr><cr>
-
-    nmap <leader><leader>f :cs find f <C-R>=expand("<cfile>")<cr><cr>
-
-    nmap <leader><leader>i :cs find i <C-R>=expand("<cfile>")<cr><cr>
-
-    nmap <leader><leader>d :cs find d <C-R>=expand("<cword>")<cr><cr>
-
 " }}}
 
 "------------------------------------------- end of configs --------------------------------------------
