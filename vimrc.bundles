@@ -10,7 +10,7 @@
 
 " 非兼容vi模式。去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限
 set nocompatible
-filetype off " required! turn off
+" filetype off " required! turn off
 
 " ################### 插件管理 ###################
 
@@ -44,8 +44,8 @@ Plug 'scrooloose/syntastic'
 Plug 'Valloric/YouCompleteMe'
 
 " 自动补全html/xml标签
-Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
-Plug 'c.vim'
+" Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
+" Plug 'c.vim'
 
 " quick edit
 " 快速注释
@@ -53,12 +53,12 @@ Plug 'scrooloose/nerdcommenter'
 
 
 " 快速赋值语句对齐
-Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/vim-easy-align'
 
 " quick movement
 " easymotion
 "更高效的移动 [,, + w/fx/h/j/k/l]
-Plug 'Lokaltog/vim-easymotion'
+" Plug 'Lokaltog/vim-easymotion'
 
 Plug 'vim-scripts/matchit.zip'
 " signature
@@ -72,10 +72,10 @@ Plug 'kshenoy/vim-signature'
 " quick selection and edit
 " expandregion
 " 选中区块
-Plug 'terryma/vim-expand-region'
+" Plug 'terryma/vim-expand-region'
 " 多光标选中编辑
 " multiplecursors
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 
 " quick locate file or function
 " 文件搜索
@@ -130,6 +130,9 @@ Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
 Plug 'vim-ctrlspace/vim-ctrlspace'
 " tagbar
 Plug 'majutsushi/tagbar'
+" java
+" Plug 'artur-shaik/vim-javacomplete2'
+" autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 if count(g:bundle_groups, 'golang')
     " 1. vim a.go
@@ -293,6 +296,8 @@ call plug#end()
     let g:ycm_collect_identifiers_from_tags_files = 1
 	let g:ycm_confirm_extra_conf=0 "去除每次打开文件都会有的加载配置文件提示
     let g:ycm_seed_identifiers_with_syntax=1	 "开启语法关键字补全
+    let g:ycm_server_python_interpreter='/usr/bin/python'
+    " let g:ycm_show_diagnostics_ui=0
 
     " 跳转到定义处, 分屏打开
     let g:ycm_goto_buffer_command = 'horizontal-split'
@@ -300,18 +305,16 @@ call plug#end()
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
-    " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
-    " old version
-    if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
-        let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
-    endif
-    " new version
     if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
         let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
     endif
 
-    " 直接触发自动补全 insert模式下
-    " let g:ycm_key_invoke_completion = '<C-Space>'
+    " 默认情况下输入 ., ->, :: 之后会触发补全函数和类， 但是默认情况下是不补全
+    " 全局函数的，所以 C 语言中的 printf 之类的函数就无法补全
+    "
+    " 解决办法就是手动调用补全，对应的 YCM 函数是 ycm_key_invoke_completion，
+    " 将其绑定到快捷键
+    let g:ycm_key_invoke_completion = '<C-a>'
     " 黑名单,不启用
     let g:ycm_filetype_blacklist = {
         \ 'tagbar' : 1,
@@ -321,14 +324,14 @@ call plug#end()
 
 
 " ultisnips {{{
-    let g:UltiSnipsExpandTrigger       = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-    let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
-    let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+    " let g:UltiSnipsExpandTrigger       = "<tab>"
+    " let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+    " let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+    " let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
+    " let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
     " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
     " 进入对应filetype的snippets进行编辑
-    map <leader>us :UltiSnipsEdit<CR>
+    " map <leader>us :UltiSnipsEdit<CR>
 
     " ctrl+j/k 进行选择
     func! g:JInYCM()
@@ -353,7 +356,7 @@ call plug#end()
 
 
 " closetag {{{
-    let g:closetag_html_style=1
+    " let g:closetag_html_style=1
 " }}}
 
 " ################### 快速编码 ###################
@@ -381,16 +384,16 @@ call plug#end()
 " expandregion {{{
     " map + <Plug>(expand_region_expand)
     " map _ <Plug>(expand_region_shrink)
-    vmap v <Plug>(expand_region_expand)
-    vmap V <Plug>(expand_region_shrink)
+    " vmap v <Plug>(expand_region_expand)
+    " vmap V <Plug>(expand_region_shrink)
     " Extend the global default
-    call expand_region#custom_text_objects({
-      \ 'a]' :1,
-      \ 'ab' :1,
-      \ 'aB' :1,
-      \ 'ii' :0,
-      \ 'ai' :0,
-      \ })
+    " call expand_region#custom_text_objects({
+      " \ 'a]' :1,
+      " \ 'ab' :1,
+      " \ 'aB' :1,
+      " \ 'ii' :0,
+      " \ 'ai' :0,
+      " \ })
 " }}}
 
 " multiplecursors {{{
@@ -491,6 +494,12 @@ call plug#end()
     let g:airline_symbols.branch = "\u2b60"
     let g:airline_symbols.readonly = "\u2b64"
     let g:airline_symbols.linenr = "\u2b61"
+  "   let g:airline_left_sep = '▶'
+    " let g:airline_left_alt_sep = '❯'
+    " let g:airline_right_sep = '◀'
+    " let g:airline_right_alt_sep = '❮'
+    " let g:airline_symbols.linenr = '¶'
+    " let g:airline_symbols.branch = '⎇'
     " 是否打开tabline
     " let g:airline#extensions#tabline#enabled = 1
 " }}}
@@ -527,6 +536,22 @@ call plug#end()
 " }}}
 
 
+" ################### 显示增强-主题 ###################"
+
+" solarized {{{
+    let g:solarized_termtrans=1
+    let g:solarized_contrast="normal"
+    let g:solarized_visibility="normal"
+    " let g:solarized_termcolors=256
+" }}}
+
+" molokai {{{
+    " monokai原始背景色
+    let g:molokai_original = 1
+    let g:rehash256 = 1
+" }}}
+
+" ################### 快速导航 ###################
 
 " nerdtree nerdtreetabs {{{
 	map <leader>n :NERDTreeToggle<CR>

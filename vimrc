@@ -98,7 +98,7 @@ set cursorline
 
 " 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制, 不需要可以去掉
 " 好处：误删什么的，如果以前屏幕打开，可以找回
-set t_ti= t_te=
+" set t_ti= t_te=
 
 
 " 鼠标暂不启用, 键盘党....
@@ -214,7 +214,7 @@ set softtabstop=4
 " insert tabs on the start of a line according to shiftwidth, not tabstop 按退格键时可以一次删掉 4 个空格
 set smarttab
 " 将Tab自动转化成空格[需要输入真正的Tab键时，使用 Ctrl+V + Tab]
-" set expandtab
+set expandtab
 " 缩进时，取整 use multiple of shiftwidth when indenting with '<' and '>'
 set shiftround
 
@@ -521,6 +521,9 @@ vnoremap <leader>y "+y
 " select all
 map <Leader>sa ggVG
 
+" 选中并高亮最后一次插入的内容
+nnoremap gv `[v`]
+
 " select block
 nnoremap <leader>v V`}
 
@@ -554,8 +557,12 @@ nnoremap ` '
 nnoremap U <C-r>
 
 " Quickly edit/reload the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" nmap <silent> <leader>ev :e $MYVIMRC<CR>
+" nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" edit vimrc/zshrc and load vimrc bindings
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ez :vsp ~/.zshrc<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 "==========================================
 " FileType Settings  文件类型设置
@@ -566,19 +573,22 @@ autocmd FileType python set tabstop=4 shiftwidth=4 expandtab ai
 autocmd FileType ruby,javascript,html,css,xml set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
 autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown set filetype=markdown.mkd
 autocmd BufRead,BufNewFile *.part set filetype=html
+autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
+
 " disable showmatch when use > in php
 au BufWinEnter *.php set mps-=<:>
 
 
 
 " 保存python文件时删除多余空格
-fun! <SID>StripTrailingWhitespaces()
+fun! StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+" autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+nnoremap <leader><space> :call StripTrailingWhitespaces()<cr>
 
 
 " 定义函数AutoSetFileHead，自动插入文件头
@@ -591,8 +601,9 @@ function! AutoSetFileHead()
 
     "如果文件类型为python
     if &filetype == 'python'
-        call setline(1, "\#!/usr/bin/env python")
-        call append(1, "\# encoding: utf-8")
+        " call setline(1, "\#!/usr/bin/env python")
+        " call append(1, "\# encoding: utf-8")
+        call setline(1, "\# -*- coding: utf-8 -*-")
     endif
 
     normal G
@@ -614,6 +625,7 @@ endif
 " Theme Settings  主题设置
 "==========================================
 " theme主题
+" set background=dark
 set t_Co=256
 
 " 设置标记一列的背景颜色和数字一行颜色一致
