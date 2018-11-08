@@ -109,6 +109,8 @@ Plug 'sjl/gundo.vim'
 
 " view
 " airline
+" 安装依赖的字体库补丁
+Plug 'powerline/fonts'
 " 状态栏增强展示
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -484,24 +486,24 @@ call plug#end()
 " ################### 显示增强 ###################
 
 " airline {{{
-    if !exists('g:airline_symbols')
-        let g:airline_symbols = {}
-    endif
-    let g:airline_left_sep = "\u2b80"
-    let g:airline_left_alt_sep = "\u2b81"
-    let g:airline_right_sep = "\u2b82"
-    let g:airline_right_alt_sep = "\u2b83"
-    let g:airline_symbols.branch = "\u2b60"
-    let g:airline_symbols.readonly = "\u2b64"
-    let g:airline_symbols.linenr = "\u2b61"
-  "   let g:airline_left_sep = '▶'
-    " let g:airline_left_alt_sep = '❯'
-    " let g:airline_right_sep = '◀'
-    " let g:airline_right_alt_sep = '❮'
-    " let g:airline_symbols.linenr = '¶'
-    " let g:airline_symbols.branch = '⎇'
-    " 是否打开tabline
-    " let g:airline#extensions#tabline#enabled = 1
+  " 不加上这句会导致vim打开时报错 Undefined variable: g:airline_symbols
+  if !exists('g:airline_symbols')
+     let g:airline_symbols = {}
+  endif
+
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = '☰'
+  let g:airline_symbols.maxlinenr = ''
+  " 顶部tab显示
+  let g:airline#extensions#tabline#enabled=1 
+  " 设置tab键映射 使用tab键切换顶部显示打开的多个文件
+  nmap <tab> :bn<cr>
 " }}}
 
 

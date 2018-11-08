@@ -87,6 +87,8 @@ echo "Step4: compile YouCompleteMe"
 echo "It will take a long time, just be patient!"
 echo "If error,you need to compile it yourself"
 echo "cd $CURRENT_DIR/bundle/YouCompleteMe/ && python install.py --clang-completer"
+echo "需要自己安装airline的字体补丁库"
+echo "cd $CURRENT_DIR/bundle/fonts &&python install.sh "
 # cd $CURRENT_DIR/bundle/YouCompleteMe/
 # git submodule update --init --recursive
 # if [ `which clang` ]   # check system clang
