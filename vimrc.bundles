@@ -209,11 +209,11 @@ call plug#end()
     " dependence
     " 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck
 
-    let g:syntastic_error_symbol='>'
-    let g:syntastic_warning_symbol='>*'
-    let g:syntastic_check_on_open=1
-    let g:syntastic_check_on_wq=0
-    let g:syntastic_enable_highlighting=1
+    " let g:syntastic_error_symbol='>'
+    " let g:syntastic_warning_symbol='>*'
+    " let g:syntastic_check_on_open=1
+    " let g:syntastic_check_on_wq=0
+    " let g:syntastic_enable_highlighting=1
 
     " checkers
     " 最轻量
@@ -291,15 +291,29 @@ call plug#end()
     let g:ycm_key_list_select_completion = ['<Down>']
     "let g:ycm_key_list_previous_completion=['<c-p>']
     let g:ycm_key_list_previous_completion = ['<Up>']
-    let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
-    let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
     let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
-    let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
-    let g:ycm_collect_identifiers_from_tags_files = 1
 	let g:ycm_confirm_extra_conf=0 "去除每次打开文件都会有的加载配置文件提示
     let g:ycm_seed_identifiers_with_syntax=1	 "开启语法关键字补全
-    let g:ycm_server_python_interpreter='/usr/bin/python'
-    " let g:ycm_show_diagnostics_ui=0
+    let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+    let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+    let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+    let g:ycm_collect_identifiers_from_tags_files = 1 "tag文件中收集用于补全信息
+    let g:ycm_server_python_interpreter='/usr/bin/python3'
+    let g:ycm_max_diagnostics_to_display = 0 "此选项控制向用户显示的最大诊断数 在文件中检测到错误或警告 默认30 ，0表示无限制
+    let g:ycm_enable_diagnostic_signs = 1 "诊断症状使能
+    let g:ycm_enable_diagnostic_highlighting = 1 "诊断语法彩笔做标记
+    let g:ycm_register_as_syntastic_checker = 1 " 使用syntastic检测语法
+    " 禁止缓存匹配项,每次都重新生成匹配项"
+    let g:ycm_cache_omnifunc=0
+    let g:ycm_error_symbol = '乄'
+    let g:ycm_warning_symbol = '〇'
+    let g:ycm_show_diagnostics_ui=1
+    " 输入2个字符就触发补全 新YCM不开启会不补全
+    let g:ycm_semantic_triggers = {
+                \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+                \ 'cs,lua,javascript': ['re!\w{2}'],
+            \ }
+    nmap <F2> :YcmDiags<CR>
 
     " 跳转到定义处, 分屏打开
     let g:ycm_goto_buffer_command = 'horizontal-split'
@@ -307,8 +321,8 @@ call plug#end()
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
-    if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-        let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+    if !empty(glob("/home/wgf/.w-vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"))
+        let g:ycm_global_ycm_extra_conf = "/home/wgf/.w-vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
     endif
 
     " 默认情况下输入 ., ->, :: 之后会触发补全函数和类， 但是默认情况下是不补全
