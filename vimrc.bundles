@@ -30,7 +30,11 @@ call plug#begin('~/.vim/bundle')
 " 移动光标到插件名上, 使用'#'快速跳转到每个插件的配置处
 
 " syntastic
-Plug 'scrooloose/syntastic'
+if v:version < 800
+    Plug 'scrooloose/syntastic'
+else
+    Plug 'w0rp/ale'
+endif
 
 " Group dependencies, vim-snippets depends on ultisnips
 " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
@@ -42,6 +46,8 @@ Plug 'scrooloose/syntastic'
 " 迄今为止用到的最好的自动VIM自动补全插件
 " 重启 :YcmRestartServer
 Plug 'Valloric/YouCompleteMe'
+" 自动补全单引号，双引号等
+Plug 'Raimondi/delimitMate'
 
 " 自动补全html/xml标签
 " Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
@@ -164,6 +170,16 @@ if count(g:bundle_groups, 'php')
     Plug 'spf13/PIV'
 endif
 
+if count(g:bundle_groups, 'ruby')
+    Plug 'vim-ruby/vim-ruby'
+    Plug 'tpope/vim-rails'
+    " dir / dar
+    Plug 'nelstrom/vim-textobj-rubyblock'
+
+    " 有bug, 和当前有冲突, 尚未解决, 不要打开 => TODO: solve this problem
+    " Plug 'tpope/vim-endwise'
+endif
+
 if count(g:bundle_groups, 'javascript')
     " javascript
     " 注意: syntax这个插件要放前面
@@ -188,6 +204,22 @@ endif
 if count(g:bundle_groups, 'json')
     " json
     Plug 'elzr/vim-json', {'for': 'json'}
+endif
+
+if count(g:bundle_groups, 'css')
+    " css
+    " not work in iterm2 which termianl selection is not xterm-256, and it slow
+    " Plug 'ap/vim-css-color'
+
+    " 这个有坑, see issue https://github.com/wklken/k-vim/issues/49
+    " Plug 'gorodinskiy/vim-coloresque'
+    " Plug 'lilydjwg/colorizer'
+endif
+
+if count(g:bundle_groups, 'less')
+    " ###### vim.less : less 自动更新##########
+    Plug 'groenewege/vim-less'
+    " autocmd BufWritePost *.less :!lessc % > %:p:r.css
 endif
 
 if count(g:bundle_groups, 'html')
@@ -371,6 +403,16 @@ call plug#end()
 " }}}
 
 
+" delimitMate {{{
+    " for python docstring ",优化输入
+    au FileType python let b:delimitMate_nesting_quotes = ['"']
+    au FileType php let delimitMate_matchpairs = "(:),[:],{:}"
+    " 关闭某些类型文件的自动补全
+    "au FileType mail let b:delimitMate_autoclose = 0
+" }}}
+
+
+" closetag {{{
 " closetag {{{
     " let g:closetag_html_style=1
 " }}}
@@ -512,7 +554,7 @@ call plug#end()
   let g:airline_right_alt_sep = ''
   let g:airline_symbols.branch = ''
   let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = '☰'
+  let g:airline_symbols.linenr = '¶'
   let g:airline_symbols.maxlinenr = ''
   " 顶部tab显示
   let g:airline#extensions#tabline#enabled=1 
@@ -684,6 +726,9 @@ call plug#end()
 
 " json {{{
     let g:vim_json_syntax_conceal = 0
+    autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
+    " format select block
+    autocmd FileType python vnoremap <leader>y :!yapf<Cr>
 " }}}
 
 "------------------------------------------- end of configs --------------------------------------------
