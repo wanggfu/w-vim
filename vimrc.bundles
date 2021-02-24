@@ -29,13 +29,6 @@ call plug#begin('~/.vim/bundle')
 
 " 移动光标到插件名上, 使用'#'快速跳转到每个插件的配置处
 
-" syntastic
-if v:version < 800
-    Plug 'scrooloose/syntastic'
-else
-    Plug 'w0rp/ale'
-endif
-
 " Group dependencies, vim-snippets depends on ultisnips
 " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
 " Snippets are separated from the engine. Add this if you want them:
@@ -47,7 +40,7 @@ endif
 " 重启 :YcmRestartServer
 Plug 'Valloric/YouCompleteMe'
 " 自动补全单引号，双引号等
-Plug 'Raimondi/delimitMate'
+" Plug 'Raimondi/delimitMate'
 
 " 自动补全html/xml标签
 " Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
@@ -237,82 +230,6 @@ call plug#end()
 
 " ################### 基础 ######################
 
-" syntastic {{{
-    " dependence
-    " 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck
-
-    " let g:syntastic_error_symbol='>'
-    " let g:syntastic_warning_symbol='>*'
-    " let g:syntastic_check_on_open=1
-    " let g:syntastic_check_on_wq=0
-    " let g:syntastic_enable_highlighting=1
-
-    " checkers
-    " 最轻量
-    " let g:syntastic_python_checkers=['pyflakes'] " 使用pyflakes
-    " 中等
-    " error code: http://pep8.readthedocs.org/en/latest/intro.html#error-codes
-    let g:syntastic_python_checkers=['pyflakes', 'pep8'] " 使用pyflakes,速度比pylint快
-    let g:syntastic_python_pep8_args='--ignore=E501,E225,E124,E712'
-    " 重量级, 但是足够强大, 定制完成后相当个性化
-    " pylint codes: http://pylint-messages.wikidot.com/all-codes
-    " let g:syntastic_python_checkers=['pyflakes', 'pylint'] " 使用pyflakes,速度比pylint快
-    " let g:syntastic_python_checkers=['pylint'] " 使用pyflakes,速度比pylint快
-    " let g:syntastic_python_pylint_args='--disable=C0111,R0903,C0301'
-
-    " if js
-    " let g:syntastic_javascript_checkers = ['jsl', 'jshint']
-    " let g:syntastic_html_checkers=['tidy', 'jshint']
-
-    " to see error location list
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_enable_signs = 1
-    let g:syntastic_auto_loc_list = 0
-    let g:syntastic_auto_jump = 0
-    let g:syntastic_loc_list_height = 5
-
-    function! ToggleErrors()
-        let old_last_winnr = winnr('$')
-        lclose
-        if old_last_winnr == winnr('$')
-            " Nothing was closed, open syntastic_error location panel
-            Errors
-        endif
-    endfunction
-    nnoremap <Leader>s :call ToggleErrors()<cr>
-
-    " ,en ,ep to jump between errors
-    function! <SID>LocationPrevious()
-    try
-        lprev
-    catch /^Vim\%((\a\+)\)\=:E553/
-        llast
-    endtry
-    endfunction
-
-    function! <SID>LocationNext()
-    try
-        lnext
-    catch /^Vim\%((\a\+)\)\=:E553/
-        lfirst
-    endtry
-    endfunction
-
-    nnoremap <silent> <Plug>LocationPrevious    :<C-u>exe 'call <SID>LocationPrevious()'<CR>
-    nnoremap <silent> <Plug>LocationNext        :<C-u>exe 'call <SID>LocationNext()'<CR>
-    nmap <silent> <Leader>ep    <Plug>LocationPrevious
-    nmap <silent> <Leader>en    <Plug>LocationNext
-
-    " 修改高亮的背景色, 适应主题
-    highlight SyntasticErrorSign guifg=white guibg=black
-
-    " 禁止插件检查java
-    " thanks to @marsqing, see https://github.com/wklken/k-vim/issues/164
-    let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
-
-    " 关闭syntastic语法检查, 鼠标复制代码时用到, 防止把错误标志给复制了
-    nnoremap <silent> <Leader>ec :SyntasticToggleMode<CR>
-" }}}
 
 
 " ################### 自动补全 ###################
@@ -323,13 +240,14 @@ call plug#end()
     let g:ycm_key_list_select_completion = ['<Down>']
     "let g:ycm_key_list_previous_completion=['<c-p>']
     let g:ycm_key_list_previous_completion = ['<Up>']
+    set completeopt=longest,menu "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
     let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
 	let g:ycm_confirm_extra_conf=0 "去除每次打开文件都会有的加载配置文件提示
     let g:ycm_seed_identifiers_with_syntax=1	 "开启语法关键字补全
-    let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
-    let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
-    let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
-    let g:ycm_collect_identifiers_from_tags_files = 1 "tag文件中收集用于补全信息
+    let g:ycm_complete_in_comments = 0  "在注释输入中也能补全
+    let g:ycm_complete_in_strings = 0   "在字符串输入中也能补全
+    let g:ycm_collect_identifiers_from_comments_and_strings = 0   "注释和字符串中的文字也会被收入补全
+    let g:ycm_collect_identifiers_from_tags_files = 0 "tag文件中收集用于补全信息
     let g:ycm_server_python_interpreter='/usr/bin/python3'
     let g:ycm_max_diagnostics_to_display = 0 "此选项控制向用户显示的最大诊断数 在文件中检测到错误或警告 默认30 ，0表示无限制
     let g:ycm_enable_diagnostic_signs = 1 "诊断症状使能
@@ -337,9 +255,9 @@ call plug#end()
     let g:ycm_register_as_syntastic_checker = 1 " 使用syntastic检测语法
     " 禁止缓存匹配项,每次都重新生成匹配项"
     let g:ycm_cache_omnifunc=0
+    let g:ycm_show_diagnostics_ui=1
     let g:ycm_error_symbol = '乄'
     let g:ycm_warning_symbol = '〇'
-    let g:ycm_show_diagnostics_ui=1
     " 输入2个字符就触发补全 新YCM不开启会不补全
     let g:ycm_semantic_triggers = {
                 \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
@@ -353,10 +271,11 @@ call plug#end()
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
-    if !empty(glob("/home/wgf/.w-vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"))
-        let g:ycm_global_ycm_extra_conf = "/home/wgf/.w-vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
+    if !empty(glob("/home/wgf/.w-vim/.ycm_extra_conf.py"))
+        let g:ycm_global_ycm_extra_conf = "/home/wgf/.w-vim/.ycm_extra_conf.py"
     endif
 
+    "自动生成ycm脚本：https://github.com/rdnetto/YCM-Generator
     " 默认情况下输入 ., ->, :: 之后会触发补全函数和类， 但是默认情况下是不补全
     " 全局函数的，所以 C 语言中的 printf 之类的函数就无法补全
     "
@@ -405,8 +324,8 @@ call plug#end()
 
 " delimitMate {{{
     " for python docstring ",优化输入
-    au FileType python let b:delimitMate_nesting_quotes = ['"']
-    au FileType php let delimitMate_matchpairs = "(:),[:],{:}"
+    " au FileType python let b:delimitMate_nesting_quotes = ['"']
+    " au FileType php let delimitMate_matchpairs = "(:),[:],{:}"
     " 关闭某些类型文件的自动补全
     "au FileType mail let b:delimitMate_autoclose = 0
 " }}}
